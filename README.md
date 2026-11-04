@@ -10,7 +10,9 @@ Public download page for the FashionAIble Android app: <https://fashionaible.git
 
 | Path | What it is |
 |---|---|
-| `index.html`, `style.css` | Download page (German first, English below) |
+| `index.html`, `style.css` | Download page (English first, German below) |
+| `presentation/` | The final presentation (generated, do not edit; see below) |
+| `tools/update-presentation.sh` | Rebuilds the presentation from the private repository and copies it here |
 | `imprint.html` | Impressum and legal notice, copied from the app's `IMPRINT.md` |
 | `qr.svg`, `qr.png` | QR code for the page (`qr.png` is 1024 px) |
 | `qr-poster.html` | Printable A4 poster: QR and "Scan to get FashionAIble" |
@@ -57,3 +59,14 @@ The repository has to be **public** for Pages on the GitHub Free plan. The `.noj
 - Open `index.html` and check both language sections and both links (APK and imprint).
 - Scan `qr.png` with a phone and check that it opens the page.
 - Confirm that the APK link downloads `fashionaible.apk` from the latest release.
+
+## Update the presentation
+
+`presentation/index.html` is the master deck of the private repository (`docs/presentation/master/`), rebuilt from the chapters on `main`; the demo videos go to `presentation/media/`. Run this before the final presentation, so the site shows the latest state:
+
+    tools/update-presentation.sh            # rebuild and copy, check presentation/index.html locally
+    tools/update-presentation.sh --publish  # the same, then commit and push (live after about a minute)
+
+It needs a clone of the private repository (default `~/fashionAIble-master`, or pass the path as the last argument) and Python 3.9+ (`uv` is used if installed). It does not touch the branch or files of that clone. Videos that are not in the repository yet are listed as missing; their slides show the placeholder.
+
+Claude Code can do it for you: *"Update the presentation on the app site and publish it."*

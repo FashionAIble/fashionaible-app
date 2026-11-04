@@ -125,6 +125,11 @@ h2 {
 .button:hover { background: #2A2A2A; }
 .button:active { background: #000000; transform: translateY(1px); }
 
+/* Secondary action (presentation): outlined, so the download stays the main action. */
+.button.secondary { background: transparent; color: var(--pill); box-shadow: inset 0 0 0 1.5px var(--pill); }
+.button.secondary:hover { background: rgba(0, 0, 0, 0.05); }
+.button.secondary:active { background: rgba(0, 0, 0, 0.1); }
+
 .hint {
   margin: 16px 0 4px;
   color: var(--ink);
