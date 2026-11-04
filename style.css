@@ -151,6 +151,7 @@ h2 {
 .qr-card { text-align: center; }
 
 .qr-card p { margin: 0 0 16px; }
+/* Under the code: what it is for, so nobody scans the page they are already on. */.qr-card .qr-caption { margin: 0 0 4px; font-size: 14px; font-weight: 500; color: var(--ink); }.qr-card .note { margin: 16px 0 0; }
 
 .qr {
   display: block;
