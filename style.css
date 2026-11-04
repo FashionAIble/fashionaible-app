@@ -1,0 +1,197 @@
+/* FashionAIble download page. No external fonts, no scripts, no tracking.
+   Colours from the design spec (docs/design/spec/foundations.md): screen, card, ink, meta, black pills. */
+
+:root {
+  --screen: #EEEEEC;
+  --card: #FFFFFF;
+  --paper: #F7F6F3;
+  --line: #E2E2E0;
+  --ink: #141414;
+  --meta: #6A6A68;
+  --pill: #000000;
+  --radius-card: 14px;
+  --radius-hero: 22px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--screen);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a { color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.site-header {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.logo { display: block; height: auto; max-width: 172px; }
+
+.lang-switch {
+  font-size: 15px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.lang-switch a {
+  display: inline-block;
+  min-height: 48px;
+  line-height: 48px;
+  padding: 0 6px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 20px 32px;
+}
+
+.lang-section + .lang-section { margin-top: 40px; }
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.hero {
+  border-radius: var(--radius-hero);
+  padding: 32px 24px 28px;
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+
+h2 {
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--meta);
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 0 0 12px;
+}
+
+.lead {
+  font-size: 20px;
+  line-height: 1.4;
+  margin: 0 0 28px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  width: 100%;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: var(--pill);
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.button:hover { background: #2A2A2A; }
+.button:active { background: #000000; transform: translateY(1px); }
+
+.hint {
+  margin: 16px 0 4px;
+  color: var(--ink);
+}
+
+.note {
+  margin: 0;
+  color: var(--meta);
+  font-size: 15px;
+}
+
+.plain {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+
+.plain li { margin-bottom: 6px; }
+
+.qr-card { text-align: center; }
+
+.qr-card p { margin: 0 0 16px; }
+
+.qr {
+  display: block;
+  margin: 0 auto 12px;
+  width: 220px;
+  height: 220px;
+  max-width: 100%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 12px;
+}
+
+.url {
+  font-size: 14px;
+  color: var(--meta);
+  word-break: break-all;
+}
+
+.site-footer {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px 32px;
+  color: var(--meta);
+  font-size: 14px;
+}
+
+.site-footer p { margin: 0; }
+
+.site-footer a { color: var(--meta); }
+
+/* Imprint page */
+.legal h2 { font-size: 15px; color: var(--ink); margin-top: 24px; }
+.legal p, .legal li { font-size: 16px; }
+.legal address { font-style: normal; }
+.legal .back { font-size: 15px; }
+
+@media (min-width: 560px) {
+  .button { width: auto; min-width: 320px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+}
+
+@media print {
+  body { background: #FFFFFF; }
+  .lang-switch, .site-footer { display: none; }
+}
