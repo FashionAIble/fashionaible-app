@@ -801,6 +801,7 @@
   .demo-kt { display: inline-block; }
   .demo-scope > :nth-child(2) { --i: 1; }
   .demo-scope > :nth-child(3) { --i: 2; }
+  .demo-scope > :nth-child(4) { --i: 3; }
   .demo-l-demo.is-active .demo-kick .icon > * { animation: demo-ink 1100ms var(--ease) var(--in) both; }
   .demo-l-demo.is-active .demo-kt { animation: demo-kin 700ms var(--ease-in) calc(var(--in) + 300ms) both; }
   .demo-l-demo.is-active .demo-head { animation: demo-slot 900ms var(--ease-in) calc(var(--in) + 200ms) both; }
@@ -864,7 +865,7 @@
   .demo-track .dot-r { position: relative; z-index: 1; background: var(--screen); box-shadow: inset 0 0 0 2px #A9A9A7, 0 0 0 8px var(--screen); }
   .demo-track .dot-r.on { background: var(--ink); box-shadow: 0 0 0 8px var(--screen); }
   .demo-track .dot-r.now { background: var(--accent); box-shadow: 0 0 0 8px var(--screen); }
-  .demo-panel { --c: 8 / -1; position: relative; border-radius: var(--r-hero); background: var(--paper); }
+  .demo-panel { --c: 8 / -1; position: relative; }
   /* the design system's phone frame at 800 px */
   .demo-phone { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 370px; height: 800px; padding: 10px; border-radius: 59px;
     background: linear-gradient(145deg, #3a3a3c, #1b1b1d 40%, #2c2c2e); box-shadow: inset 0 0 0 1.5px #55555a, 0 30px 50px -30px rgba(40, 20, 10, .45); }
@@ -872,6 +873,11 @@
   .demo-screen .cam { position: absolute; top: 14px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #0a0a0a; box-shadow: inset 0 0 0 2px #1f1f22; z-index: 3; }
   .demo-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 40px; text-align: center; }
   .demo-ph .circle { margin-bottom: 8px; }
+  /* time left in the clip, under the phone, styled like the page number (script demo-media) */
+  .demo-time { position: absolute; left: 50%; top: calc(50% + 400px + 20px); translate: -50% 0; font-size: 18px; line-height: 1;
+    color: var(--meta); font-variant-numeric: tabular-nums; letter-spacing: .02em; opacity: 0; transition: opacity var(--t-slow) var(--ease); }
+  .demo-time.on { opacity: 1; }
+  @media print { .demo-time { display: none; } }
 
   /* 11 the small things: four tiles, one per click. A tile rises in, then its caption lines follow;
      its loop starts with its step (the step classes stay on, so a loop never restarts). Every loop
@@ -880,11 +886,12 @@
   .demo-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
   .demo-tile { padding: 0; justify-content: flex-start; }
   .demo-tile.demo-in { translate: 0 90px; scale: .94; transition: opacity 700ms var(--ease), translate 900ms var(--ease-in), scale 900ms var(--ease-in); }
-  .demo-small.demo-st-1 .demo-at-1, .demo-small.demo-st-2 .demo-at-2, .demo-small.demo-st-3 .demo-at-3, .demo-small.demo-st-4 .demo-at-4 { scale: 1; }
+  .demo-small:is(.is-active, .demo-st-1) .demo-in.demo-at-0 { opacity: 1; translate: none; }
+  .demo-small:is(.is-active, .demo-st-1) .demo-at-0, .demo-small.demo-st-1 .demo-at-1, .demo-small.demo-st-2 .demo-at-2, .demo-small.demo-st-3 .demo-at-3 { scale: 1; }
   .demo-tile .cap > * { opacity: 0; translate: 0 16px; transition: opacity var(--t-slow) var(--ease) 350ms, translate var(--t-slow) var(--ease-in) 350ms; }
   .demo-tile .cap > * + * { transition-delay: 480ms; }
-  .demo-small.demo-st-1 .demo-at-1 .cap > *, .demo-small.demo-st-2 .demo-at-2 .cap > *,
-  .demo-small.demo-st-3 .demo-at-3 .cap > *, .demo-small.demo-st-4 .demo-at-4 .cap > * { opacity: 1; translate: none; }
+  .demo-small:is(.is-active, .demo-st-1) .demo-at-0 .cap > *, .demo-small.demo-st-1 .demo-at-1 .cap > *,
+  .demo-small.demo-st-2 .demo-at-2 .cap > *, .demo-small.demo-st-3 .demo-at-3 .cap > * { opacity: 1; translate: none; }
   .demo-stage { position: relative; flex: 1; overflow: hidden; background: var(--paper); }
   .demo-tile .cap { padding: 22px 28px 28px; }
   .demo-tile .cap .t-meta { margin-top: 6px; }
@@ -901,14 +908,14 @@
   .demo-skin .up svg { width: 120px; height: 120px; }
   .demo-skin .ok { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; opacity: 0; }
   .demo-skin .ok .icon { width: 20px; height: 20px; stroke-width: 2.4; }
-  .demo-small.demo-st-1 .demo-skin { animation: 9s var(--ease) 500ms infinite both; }
-  .demo-small.demo-st-1 .demo-skin .ok { animation: 9s var(--ease-in) 500ms infinite both; }
-  .demo-small.demo-st-1 .a .demo-skin { animation-name: demo-flip-a; }
-  .demo-small.demo-st-1 .b .demo-skin { animation-name: demo-flip-b; }
-  .demo-small.demo-st-1 .c .demo-skin { animation-name: demo-flip-c; }
-  .demo-small.demo-st-1 .d .demo-skin { animation-name: demo-flip-d; }
-  .demo-small.demo-st-1 .a .ok, .demo-small.demo-st-1 .c .ok { animation-name: demo-ok-1; }
-  .demo-small.demo-st-1 .b .ok, .demo-small.demo-st-1 .d .ok { animation-name: demo-ok-2; }
+  .demo-small.is-active .demo-skin { animation: 9s var(--ease) 500ms infinite both; }
+  .demo-small.is-active .demo-skin .ok { animation: 9s var(--ease-in) 500ms infinite both; }
+  .demo-small.is-active .a .demo-skin { animation-name: demo-flip-a; }
+  .demo-small.is-active .b .demo-skin { animation-name: demo-flip-b; }
+  .demo-small.is-active .c .demo-skin { animation-name: demo-flip-c; }
+  .demo-small.is-active .d .demo-skin { animation-name: demo-flip-d; }
+  .demo-small.is-active .a .ok, .demo-small.is-active .c .ok { animation-name: demo-ok-1; }
+  .demo-small.is-active .b .ok, .demo-small.is-active .d .ok { animation-name: demo-ok-2; }
   @keyframes demo-flip-a { 0%, 8% { transform: rotateY(0); } 12%, 32% { transform: rotateY(180deg); } 36%, 42% { transform: rotateY(0); } 46%, 92% { transform: rotateY(180deg); } 96%, 100% { transform: rotateY(0); } }
   @keyframes demo-flip-b { 0%, 18% { transform: rotateY(0); } 22%, 32% { transform: rotateY(180deg); } 36%, 64% { transform: rotateY(0); } 68%, 92% { transform: rotateY(180deg); } 96%, 100% { transform: rotateY(0); } }
   @keyframes demo-flip-c { 0%, 52% { transform: rotateY(0); } 56%, 92% { transform: rotateY(180deg); } 96%, 100% { transform: rotateY(0); } }
@@ -923,9 +930,9 @@
   .demo-errs img { width: 300px; transform-origin: 50% 80%; }
   .demo-404 { display: inline-flex; align-items: center; font-weight: 100; font-size: 150px; transform-origin: 50% 80%; }
   .demo-404 .icon { width: .8em; height: .8em; color: var(--accent); fill: currentColor; stroke-width: .6; margin: 0 .04em; }
-  .demo-small.demo-st-2 .demo-errs .sc { animation: demo-scene 10s var(--ease) calc(400ms + var(--s) * 2.5s) infinite both; }
-  .demo-small.demo-st-2 .demo-errs .sc > * { animation: demo-wiggle 10s var(--ease) calc(400ms + var(--s) * 2.5s) infinite both; }
-  .demo-small.demo-st-2 .demo-404 .icon { animation: demo-glint 10s var(--ease) 400ms infinite both; }
+  .demo-small.demo-st-1 .demo-errs .sc { animation: demo-scene 10s var(--ease) calc(400ms + var(--s) * 2.5s) infinite both; }
+  .demo-small.demo-st-1 .demo-errs .sc > * { animation: demo-wiggle 10s var(--ease) calc(400ms + var(--s) * 2.5s) infinite both; }
+  .demo-small.demo-st-1 .demo-404 .icon { animation: demo-glint 10s var(--ease) 400ms infinite both; }
   @keyframes demo-scene { 0% { opacity: 0; translate: 0 30px; } 4%, 24% { opacity: 1; translate: 0 0; } 28%, 100% { opacity: 0; translate: 0 -30px; } }
   @keyframes demo-wiggle { 0%, 7% { rotate: 0deg; } 8.2% { rotate: -7deg; } 10.4% { rotate: 5deg; } 12.5%, 100% { rotate: 0deg; } }
   @keyframes demo-glint { 0%, 12% { scale: 1; rotate: 0deg; } 15% { scale: 1.25; } 19%, 100% { scale: 1; rotate: 90deg; } }
@@ -947,9 +954,9 @@
   .demo-tryon .slots { gap: 14px; }
   .demo-tryon .slots img { position: absolute; left: 10%; top: 10%; width: 80%; opacity: 0; filter: drop-shadow(0 8px 10px var(--shadow-clothes)); }
   .demo-tryon .slots img:first-child { opacity: 1; }
-  .demo-small.demo-st-3 .demo-tryon .strip { animation: demo-flick 8s 400ms infinite both; }
-  .demo-small.demo-st-3 .demo-tryon .pc { animation: demo-swing 2s var(--ease) 400ms infinite both; }
-  .demo-small.demo-st-3 .demo-tryon .slots img { animation: demo-tryit 8s var(--ease) calc(400ms + var(--s) * 2s) infinite both; }
+  .demo-small.demo-st-2 .demo-tryon .strip { animation: demo-flick 8s 400ms infinite both; }
+  .demo-small.demo-st-2 .demo-tryon .pc { animation: demo-swing 2s var(--ease) 400ms infinite both; }
+  .demo-small.demo-st-2 .demo-tryon .slots img { animation: demo-tryit 8s var(--ease) calc(400ms + var(--s) * 2s) infinite both; }
   @keyframes demo-flick {
     0%, 20%  { translate: 0 0; animation-timing-function: var(--ease); }
     25%, 45% { translate: calc(-1 * var(--p)) 0; animation-timing-function: var(--ease); }
@@ -968,13 +975,13 @@
   .demo-seasons .sc { position: absolute; inset: 0; }
   .demo-seasons .sc + .sc { opacity: 0; }
   .demo-seasons .tag { position: absolute; left: 24px; top: 24px; }
-  .demo-small.demo-st-4 .demo-seasons .sc { animation: demo-scene 12s var(--ease) calc(var(--t0) + var(--s) * 3s) infinite both; }
+  .demo-small.demo-st-3 .demo-seasons .sc { animation: demo-scene 12s var(--ease) calc(var(--t0) + var(--s) * 3s) infinite both; }
   .demo-bat { position: absolute; left: var(--x); top: var(--y); width: var(--w); }
   .demo-bat b { display: block; }
   .demo-bat svg { display: block; width: 100%; height: auto; fill: var(--ink); }
-  .demo-small.demo-st-4 .demo-bat { animation: demo-batfly 12s cubic-bezier(.4, 0, .6, 1) calc(var(--t0) + var(--i) * 200ms) infinite both; }
-  .demo-small.demo-st-4 .demo-bat b { animation: demo-bob 900ms ease-in-out calc(var(--i) * -300ms) infinite alternate both; }
-  .demo-small.demo-st-4 .demo-bat svg { animation: demo-flap 300ms ease-in-out calc(var(--i) * -110ms) infinite alternate both; }
+  .demo-small.demo-st-3 .demo-bat { animation: demo-batfly 12s cubic-bezier(.4, 0, .6, 1) calc(var(--t0) + var(--i) * 200ms) infinite both; }
+  .demo-small.demo-st-3 .demo-bat b { animation: demo-bob 900ms ease-in-out calc(var(--i) * -300ms) infinite alternate both; }
+  .demo-small.demo-st-3 .demo-bat svg { animation: demo-flap 300ms ease-in-out calc(var(--i) * -110ms) infinite alternate both; }
   @keyframes demo-batfly { 0% { translate: calc(-1 * var(--x) - 140px) 70px; } 21.7%, 100% { translate: calc(560px - var(--x)) -70px; } }
   @keyframes demo-bob { to { translate: 0 -22px; } }
   @keyframes demo-flap { to { scale: 1 .4; } }
@@ -983,25 +990,25 @@
   .demo-xmas .th use { fill: none; stroke: var(--ink); stroke-width: .7; stroke-linecap: round; stroke-linejoin: round; }
   .demo-xmas .bb { position: absolute; left: calc(50% + var(--dx) - 11px); top: var(--dy); width: 22px; height: 22px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 2px var(--ink); transform-origin: 50% -4px; }
   .demo-xmas .st { position: absolute; left: calc(50% - 30px); top: 92px; width: 60px; height: 60px; fill: var(--ink); stroke: var(--ink); stroke-width: 1; }
-  .demo-small.demo-st-4 .demo-xmas .th { animation: demo-drop12 12s var(--ease-in) calc(var(--t0) + 3s + var(--i) * 150ms) infinite both; }
-  .demo-small.demo-st-4 .demo-xmas .bb { animation: demo-drop12 12s var(--ease-in) calc(var(--t0) + 4s + var(--i) * 110ms) infinite both, demo-bauble 1.4s ease-in-out calc(var(--i) * -400ms) infinite alternate; }
-  .demo-small.demo-st-4 .demo-xmas .st { animation: demo-star12 12s var(--ease-in) calc(var(--t0) + 3s) infinite both; }
+  .demo-small.demo-st-3 .demo-xmas .th { animation: demo-drop12 12s var(--ease-in) calc(var(--t0) + 3s + var(--i) * 150ms) infinite both; }
+  .demo-small.demo-st-3 .demo-xmas .bb { animation: demo-drop12 12s var(--ease-in) calc(var(--t0) + 4s + var(--i) * 110ms) infinite both, demo-bauble 1.4s ease-in-out calc(var(--i) * -400ms) infinite alternate; }
+  .demo-small.demo-st-3 .demo-xmas .st { animation: demo-star12 12s var(--ease-in) calc(var(--t0) + 3s) infinite both; }
   @keyframes demo-drop12 { 0% { opacity: 0; translate: 0 -50px; } 4%, 100% { opacity: 1; translate: 0 0; } }
   @keyframes demo-bauble { from { rotate: -8deg; } to { rotate: 8deg; } }
   @keyframes demo-star12 { 0%, 11% { scale: 0; rotate: -90deg; } 14% { scale: 1.3; rotate: 0deg; } 16%, 18% { scale: 1; } 19.5% { scale: 1.15; } 21%, 100% { scale: 1; rotate: 0deg; } }
 
   .demo-snow .fl { position: absolute; left: var(--x); top: 0; width: var(--w); fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; translate: 0 calc(var(--w) * 4 + 80px); }
   .demo-snow .drift { position: absolute; left: -30px; right: -30px; bottom: -60px; height: 120px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 0 2px var(--ink); transform-origin: 50% 100%; }
-  .demo-small.demo-st-4 .demo-snow .fl { animation: demo-snowfall 3.2s linear var(--d) infinite both; }
-  .demo-small.demo-st-4 .demo-snow .drift { animation: demo-drift 12s var(--ease) calc(var(--t0) + 6s) infinite both; }
+  .demo-small.demo-st-3 .demo-snow .fl { animation: demo-snowfall 3.2s linear var(--d) infinite both; }
+  .demo-small.demo-st-3 .demo-snow .drift { animation: demo-drift 12s var(--ease) calc(var(--t0) + 6s) infinite both; }
   @keyframes demo-snowfall { from { translate: 0 -60px; rotate: 0deg; } to { translate: var(--dx) 580px; rotate: 160deg; } }
   @keyframes demo-drift { 0% { scale: 1 .2; } 22%, 100% { scale: 1 1; } }
 
   .demo-easter .egg { position: absolute; left: calc(50% + var(--dx) - 50px); bottom: 110px; width: 100px; }
   .demo-easter .egg b { display: block; transform-origin: 50% 90%; }
   .demo-easter .egg svg { display: block; width: 100%; height: auto; }
-  .demo-small.demo-st-4 .demo-easter .egg { animation: demo-hop12 12s calc(var(--t0) + 9s + var(--i) * 180ms) infinite both; }
-  .demo-small.demo-st-4 .demo-easter .egg b { animation: demo-eggwob 1.6s ease-in-out calc(var(--i) * -500ms) infinite both; }
+  .demo-small.demo-st-3 .demo-easter .egg { animation: demo-hop12 12s calc(var(--t0) + 9s + var(--i) * 180ms) infinite both; }
+  .demo-small.demo-st-3 .demo-easter .egg b { animation: demo-eggwob 1.6s ease-in-out calc(var(--i) * -500ms) infinite both; }
   @keyframes demo-hop12 {
     0%   { translate: 0 360px; animation-timing-function: var(--ease); }
     3%   { translate: 0 -40px; animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
@@ -2318,7 +2325,7 @@
       <div>
         <span class="tag"><svg class="icon"><use href="#i-sparkle"/></svg>MBA study project</span>
         <h1 class="t-display-xl mt-4">Wear what you&nbsp;own.</h1>
-        <p class="t-lead mt-4 measure-l">An outfit from your own clothes, every day.</p>
+        <p class="t-lead mt-4 measure-l">A new outfit from your own clothes, every day.</p>
         <p class="t-meta mt-3">Christopher K. · Christopher S. · Lisa W. · Prakash S. · Steve S.</p>
       </div>
     </div>
@@ -2546,6 +2553,7 @@
         <div><span class="circle grey s"><svg class="icon" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg></span><span class="t-subtitle">Voice to clothes</span></div>
         <div><span class="circle grey s"><svg class="icon"><use href="#i-camera"/></svg></span><span class="t-subtitle">Image recognition</span></div>
         <div><span class="circle grey s"><svg class="icon"><use href="#i-plus"/></svg></span><span class="t-subtitle">Manual additions</span></div>
+        <div><span class="circle grey s"><svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg></span><span class="t-subtitle">Import from webshop (eBay)</span></div>
       </div>
     </div>
     <ol class="demo-track rise-2" aria-label="Step 2 of 5">
@@ -2575,7 +2583,7 @@
       <div class="rows demo-scope">
         <div><span class="circle grey s"><svg class="icon"><use href="#i-hanger"/></svg></span><span class="t-subtitle">Daily outfit suggestions</span></div>
         <div><span class="circle grey s"><svg class="icon"><use href="#i-calendar"/></svg></span><span class="t-subtitle">Plan ahead</span></div>
-        <div><span class="circle grey s"><svg class="icon" viewBox="0 0 24 24"><path d="M7.6 10.6 4.9 13.3a4.2 4.2 0 0 0 5.9 5.9l2.7-2.7"/><path d="M16.4 13.4l2.7-2.7a4.2 4.2 0 0 0-5.9-5.9l-2.7 2.7"/><path d="m10 14 4-4"/></svg></span><span class="t-subtitle">Optional integrations: weather, calendar</span></div>
+        <div><span class="circle grey s"><svg class="icon" viewBox="0 0 24 24"><path d="M7.6 10.6 4.9 13.3a4.2 4.2 0 0 0 5.9 5.9l2.7-2.7"/><path d="M16.4 13.4l2.7-2.7a4.2 4.2 0 0 0-5.9-5.9l-2.7 2.7"/><path d="m10 14 4-4"/></svg></span><span class="t-subtitle">3rd party integrations: weather, calendar</span></div>
       </div>
     </div>
     <ol class="demo-track rise-2" aria-label="Step 3 of 5">
@@ -2634,8 +2642,8 @@
       <h2 class="t-headline mt-4 demo-head">Shop your closet&nbsp;first</h2>
       <div class="rows demo-scope">
         <div><span class="circle grey s"><svg class="icon"><use href="#i-search"/></svg></span><span class="t-subtitle">See what's missing</span></div>
-        <div><span class="circle grey s"><svg class="icon"><use href="#i-check"/></svg></span><span class="t-subtitle">Check a buy against what you own</span></div>
-        <div><span class="circle grey s"><svg class="icon"><use href="#i-swap"/></svg></span><span class="t-subtitle">Shopping hub (prototype)</span></div>
+        <div><span class="circle grey s"><svg class="icon"><use href="#i-swap"/></svg></span><span class="t-subtitle">Shopping hub (eBay)</span></div>
+        <div><span class="circle grey s"><svg class="icon"><use href="#i-check"/></svg></span><span class="t-subtitle">Check a buy against what you own (coming soon)</span></div>
       </div>
     </div>
     <ol class="demo-track rise-2" aria-label="Step 5 of 5">
@@ -2656,31 +2664,31 @@
 </section>
 
 <!-- ============================================================
-     00 DEMO · 11 THE SMALL THINGS  (new grid .demo-small, 4 steps – one tile per click)
+     00 DEMO · 11 THE SMALL THINGS  (new grid .demo-small, 3 steps – the first tile shows at once, then one tile per click)
      Each tile is a CSS loop with the app's own drawings (no recordings): the 2×2 sock memory game,
      the error moments (4✦4 and the mascots, each with its wiggle), the try-on rail, the seasonal themes
      (the app's Halloween bats, then concepts for Christmas, snow and Easter, #618).
      Speaker notes (about 0:30):
-       [CLICK 1] the sock game while photos wait for the connection
-       [CLICK 2] error moments: a 404 with a mascot, and a way out
-       [CLICK 3] the try-on while today's outfit loads
-       [CLICK 4] seasonal themes: the Halloween bats are in the app; Christmas, snow and Easter are next
+       [ON ENTRY] the sock game while photos wait for the connection
+       [CLICK 1] error moments: a 404 with a mascot, and a way out
+       [CLICK 2] the try-on while today's outfit loads
+       [CLICK 3] seasonal themes: the Halloween bats are in the app; Christmas, snow and Easter are next
      ============================================================ -->
-<section class="slide bg-screen demo-small" id="demo-small" data-steps="4" aria-label="The small things">
+<section class="slide bg-screen demo-small" id="demo-small" data-steps="3" aria-label="The small things">
   <div class="frame">
     <div class="rise" style="--c: 1 / 9">
       <span class="kicker"><svg class="icon"><use href="#i-star"/></svg>The small things</span>
       <h2 class="t-headline mt-4">Details people smile&nbsp;at</h2>
     </div>
     <div class="demo-tiles below-title">
-      <div class="card demo-tile demo-in demo-at-1">
+      <div class="card demo-tile demo-in demo-at-0">
         <div class="demo-stage demo-socks" aria-hidden="true">
           <svg width="0" height="0" style="position:absolute"><clipPath id="demo-sockclip"><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z"/></clipPath></svg>
           <div class="demo-sk a"><div class="demo-skin"><i class="down"><svg class="icon"><use href="#i-hanger"/></svg></i><i class="up"><svg viewBox="0 0 48 48"><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z" fill="#1F2A44"/><g clip-path="url(#demo-sockclip)"><g stroke="rgba(255,255,255,.75)" stroke-width="1.5"><path d="M15 10H27"/><path d="M15 15H27"/><path d="M15 20H27"/><path d="M15 25H27"/></g></g><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z" fill="none" stroke="#141414" stroke-width="2" stroke-linejoin="round"/></svg><b class="ok"><svg class="icon"><use href="#i-check"/></svg></b></i></div></div><div class="demo-sk b"><div class="demo-skin"><i class="down"><svg class="icon"><use href="#i-hanger"/></svg></i><i class="up"><svg viewBox="0 0 48 48"><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z" fill="#E8B923"/><g clip-path="url(#demo-sockclip)"><path d="M15 10H27" stroke="rgba(0,0,0,.45)" stroke-width="1.5"/><g fill="rgba(0,0,0,.45)"><circle cx="19" cy="15" r="1.4"/><circle cx="23.5" cy="20" r="1.4"/><circle cx="19" cy="25" r="1.4"/><circle cx="27" cy="33" r="1.4"/><circle cx="33" cy="37" r="1.4"/></g></g><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z" fill="none" stroke="#141414" stroke-width="2" stroke-linejoin="round"/></svg><b class="ok"><svg class="icon"><use href="#i-check"/></svg></b></i></div></div><div class="demo-sk d"><div class="demo-skin"><i class="down"><svg class="icon"><use href="#i-hanger"/></svg></i><i class="up"><svg viewBox="0 0 48 48"><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z" fill="#E8B923"/><g clip-path="url(#demo-sockclip)"><path d="M15 10H27" stroke="rgba(0,0,0,.45)" stroke-width="1.5"/><g fill="rgba(0,0,0,.45)"><circle cx="19" cy="15" r="1.4"/><circle cx="23.5" cy="20" r="1.4"/><circle cx="19" cy="25" r="1.4"/><circle cx="27" cy="33" r="1.4"/><circle cx="33" cy="37" r="1.4"/></g></g><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z" fill="none" stroke="#141414" stroke-width="2" stroke-linejoin="round"/></svg><b class="ok"><svg class="icon"><use href="#i-check"/></svg></b></i></div></div><div class="demo-sk c"><div class="demo-skin"><i class="down"><svg class="icon"><use href="#i-hanger"/></svg></i><i class="up"><svg viewBox="0 0 48 48"><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z" fill="#1F2A44"/><g clip-path="url(#demo-sockclip)"><g stroke="rgba(255,255,255,.75)" stroke-width="1.5"><path d="M15 10H27"/><path d="M15 15H27"/><path d="M15 20H27"/><path d="M15 25H27"/></g></g><path d="M15 5H27V26L37 32C40 34 40.5 38 38.5 40.5C36.5 43 33 43 30.5 41.5L17 33.5C15.5 32.5 15 31 15 29Z" fill="none" stroke="#141414" stroke-width="2" stroke-linejoin="round"/></svg><b class="ok"><svg class="icon"><use href="#i-check"/></svg></b></i></div></div>
         </div>
         <div class="cap"><p class="t-label">Sock game</p><p class="t-meta">While photos wait for the connection</p></div>
       </div>
-      <div class="card demo-tile demo-in demo-at-2">
+      <div class="card demo-tile demo-in demo-at-1">
         <div class="demo-stage demo-errs" aria-hidden="true">
           <div class="sc" style="--s:0"><p class="t-num demo-404">4<svg class="icon" viewBox="0 0 24 24"><use href="#i-sparkle"/></svg>4</p></div>
           <div class="sc" style="--s:1"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgODAiPjxwYXRoIGQ9Ik0xMCAxNCBIMTEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDE0MTQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAgMzQpIHNjYWxlKDMuMikiPjxwYXRoIGQ9Ik0tMi41IC01LjVhMi41IDIuNSAwIDEgMSAzLjMgMi40Yy0uNS4yLS44LjYtLjggMS4xdi44TTAgLTEuMiAtOC40IDQuMmExIDEgMCAwIDAgLjUgMS44aDE1LjhhMSAxIDAgMCAwIC41LTEuOEwwIC0xLjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE0MTQxNCIgc3Ryb2tlLXdpZHRoPSIwLjYyNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9nPjxjaXJjbGUgY3g9IjU0IiBjeT0iNDIiIHI9IjEuNzk5OTk5OTk5OTk5OTk5OCIgZmlsbD0iIzE0MTQxNCIvPjxjaXJjbGUgY3g9IjY2IiBjeT0iNDIiIHI9IjEuNzk5OTk5OTk5OTk5OTk5OCIgZmlsbD0iIzE0MTQxNCIvPjxwYXRoIGQ9Ik01NSA0OCBxNSAtMyAxMCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDE0MTQiIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4K" alt=""></div>
@@ -2689,7 +2697,7 @@
         </div>
         <div class="cap"><p class="t-label">Error moments</p><p class="t-meta">A mascot and a way out</p></div>
       </div>
-      <div class="card demo-tile demo-in demo-at-3">
+      <div class="card demo-tile demo-in demo-at-2">
         <div class="demo-stage demo-tryon" aria-hidden="true">
           <div class="bar"></div>
           <div class="strip"><span style="--k:0"><svg class="hg" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></svg><img class="pc" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTE4IDcgTDExIDkuNSBDOC41IDEwLjUgNy4yIDEyLjUgNi44IDE1IEw0LjUgMzkgSDEwLjUgTDEzIDIwIFY0MiBIMzUgVjIwIEwzNy41IDM5IEg0My41IEw0MS4yIDE1IEM0MC44IDEyLjUgMzkuNSAxMC41IDM3IDkuNSBMMzAgNyBDMzEgMS41IDE3IDEuNSAxOCA3IFoiIGZpbGw9IiM0QTc4QzIiIHN0cm9rZT0iIzE0MTQxNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTkuNSA5IEMyMCA0LjUgMjggNC41IDI4LjUgOSBDMjcgMTIgMjEgMTIgMTkuNSA5IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjc1KSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yMiAxMS41IFYxNiBNMjYgMTEuNSBWMTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjc1KSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xNyAzMiBIMzEgTDMzIDM5IEgxNSBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43NSkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4K" alt=""></span><span style="--k:1"><svg class="hg" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></svg><img class="pc" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTE4IDcgTDEwIDEwIEwzIDE4IEw5IDI0IEwxMyAyMSBWNDIgSDM1IFYyMSBMMzkgMjQgTDQ1IDE4IEwzOCAxMCBMMzAgNyBDMjguNSAxMCAyNi41IDExLjUgMjQgMTEuNSBDMjEuNSAxMS41IDE5LjUgMTAgMTggNyBaIiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiMxNDE0MTQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+Cg==" alt=""></span><span style="--k:2"><svg class="hg" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></svg><img class="pc" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTE4IDcgTDExIDkuNSBDOC41IDEwLjUgNy4yIDEyLjUgNi44IDE1IEw0LjUgMzkgSDEwLjUgTDEzIDIwIFY0MiBIMzUgVjIwIEwzNy41IDM5IEg0My41IEw0MS4yIDE1IEM0MC44IDEyLjUgMzkuNSAxMC41IDM3IDkuNSBMMzAgNyBMMjcgOSBMMjQgMTAgTDIxIDkgWiIgZmlsbD0iIzExMTExMSIgc3Ryb2tlPSIjMTQxNDE0IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xOCA3IEwxOC41IDExIEwyNCAxMCBMMjkuNSAxMSBMMzAgNyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNzUpIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTI0IDEwIFY0MiBNMTMgMzguNSBIMzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjc1KSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xNS41IDMxIEwxOS41IDMwIE0zMi41IDMxIEwyOC41IDMwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43NSkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4K" alt=""></span><span style="--k:3"><svg class="hg" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></svg><img class="pc" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTE4IDcgTDEwIDEwIEwzIDE4IEw5IDI0IEwxMyAyMSBWNDIgSDM1IFYyMSBMMzkgMjQgTDQ1IDE4IEwzOCAxMCBMMzAgNyBDMjguNSAxMCAyNi41IDExLjUgMjQgMTEuNSBDMjEuNSAxMS41IDE5LjUgMTAgMTggNyBaIiBmaWxsPSIjMTExMTExIiBzdHJva2U9IiMxNDE0MTQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+Cg==" alt=""></span><span style="--k:4"><svg class="hg" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></svg><img class="pc" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTE4IDcgTDExIDkuNSBDOC41IDEwLjUgNy4yIDEyLjUgNi44IDE1IEw0LjUgMzkgSDEwLjUgTDEzIDIwIFY0MiBIMzUgVjIwIEwzNy41IDM5IEg0My41IEw0MS4yIDE1IEM0MC44IDEyLjUgMzkuNSAxMC41IDM3IDkuNSBMMzAgNyBDMzEgMS41IDE3IDEuNSAxOCA3IFoiIGZpbGw9IiM0QTc4QzIiIHN0cm9rZT0iIzE0MTQxNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTkuNSA5IEMyMCA0LjUgMjggNC41IDI4LjUgOSBDMjcgMTIgMjEgMTIgMTkuNSA5IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjc1KSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yMiAxMS41IFYxNiBNMjYgMTEuNSBWMTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjc1KSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xNyAzMiBIMzEgTDMzIDM5IEgxNSBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43NSkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4K" alt=""></span><span style="--k:5"><svg class="hg" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></svg><img class="pc" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTE4IDcgTDEwIDEwIEwzIDE4IEw5IDI0IEwxMyAyMSBWNDIgSDM1IFYyMSBMMzkgMjQgTDQ1IDE4IEwzOCAxMCBMMzAgNyBDMjguNSAxMCAyNi41IDExLjUgMjQgMTEuNSBDMjEuNSAxMS41IDE5LjUgMTAgMTggNyBaIiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiMxNDE0MTQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+Cg==" alt=""></span><span style="--k:6"><svg class="hg" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></svg><img class="pc" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTE4IDcgTDExIDkuNSBDOC41IDEwLjUgNy4yIDEyLjUgNi44IDE1IEw0LjUgMzkgSDEwLjUgTDEzIDIwIFY0MiBIMzUgVjIwIEwzNy41IDM5IEg0My41IEw0MS4yIDE1IEM0MC44IDEyLjUgMzkuNSAxMC41IDM3IDkuNSBMMzAgNyBMMjcgOSBMMjQgMTAgTDIxIDkgWiIgZmlsbD0iIzExMTExMSIgc3Ryb2tlPSIjMTQxNDE0IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xOCA3IEwxOC41IDExIEwyNCAxMCBMMjkuNSAxMSBMMzAgNyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNzUpIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTI0IDEwIFY0MiBNMTMgMzguNSBIMzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjc1KSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xNS41IDMxIEwxOS41IDMwIE0zMi41IDMxIEwyOC41IDMwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC43NSkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4K" alt=""></span><span style="--k:7"><svg class="hg" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></svg><img class="pc" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZD0iTTE4IDcgTDEwIDEwIEwzIDE4IEw5IDI0IEwxMyAyMSBWNDIgSDM1IFYyMSBMMzkgMjQgTDQ1IDE4IEwzOCAxMCBMMzAgNyBDMjguNSAxMCAyNi41IDExLjUgMjQgMTEuNSBDMjEuNSAxMS41IDE5LjUgMTAgMTggNyBaIiBmaWxsPSIjMTExMTExIiBzdHJva2U9IiMxNDE0MTQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+Cg==" alt=""></span></div>
@@ -2697,7 +2705,7 @@
         </div>
         <div class="cap"><p class="t-label">Try-on</p><p class="t-meta">While today's outfit loads</p></div>
       </div>
-      <div class="card demo-tile demo-in demo-at-4">
+      <div class="card demo-tile demo-in demo-at-3">
         <div class="demo-stage demo-seasons" aria-hidden="true">
           <svg width="0" height="0" style="position:absolute"><symbol id="demo-bat" viewBox="0 0 24 24"><path d="M12 16.5c-.8-1-1.3-1.9-1.5-3-1.1-.6-2.3-.4-3.2.5-.6-1.1-1.9-1.6-3.3-1.4.3-1.6-.2-3-1.5-4.1 3.3-.3 6.1.5 8 2.5l-.2-2.6 1.1 1.2h1.2l1.1-1.2-.2 2.6c1.9-2 4.7-2.8 8-2.5-1.3 1.1-1.8 2.5-1.5 4.1-1.4-.2-2.7.3-3.3 1.4-.9-.9-2.1-1.1-3.2-.5-.2 1.1-.7 2-1.5 3Z"/></symbol><symbol id="demo-hgr" viewBox="-10 -9 20 16"><path d="M-2.5 -5.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.8M0 -1.2 -8.4 4.2a1 1 0 0 0 .5 1.8h15.8a1 1 0 0 0 .5-1.8L0 -1.2"/></symbol><symbol id="demo-flake" viewBox="0 0 24 24"><g id="demo-arm"><path d="M12 3v18M9.4 4.9 12 6.6l2.6-1.7M9.4 19.1 12 17.4l2.6 1.7"/></g><use href="#demo-arm" transform="rotate(60 12 12)"/><use href="#demo-arm" transform="rotate(120 12 12)"/></symbol><clipPath id="demo-eggclip"><path d="M24 4C33 4 41 18 41 29C41 39 33.5 45 24 45C14.5 45 7 39 7 29C7 18 15 4 24 4Z"/></clipPath></svg>
           <div class="sc" style="--s:0"><span class="tag">Halloween</span><i class="demo-bat" style="--x:90px; --y:150px; --w:84px; --i:0"><b><svg viewBox="0 0 24 24"><use href="#demo-bat"/></svg></b></i><i class="demo-bat" style="--x:250px; --y:250px; --w:64px; --i:1"><b><svg viewBox="0 0 24 24"><use href="#demo-bat"/></svg></b></i><i class="demo-bat" style="--x:170px; --y:340px; --w:100px; --i:2"><b><svg viewBox="0 0 24 24"><use href="#demo-bat"/></svg></b></i></div>
@@ -2830,8 +2838,8 @@
   <div class="frame">
     <div style="--c: 1 / -1">
       <span class="kicker rise"><svg class="icon"><use href="#i-user"/></svg>Where we started</span>
-      <h2 class="t-headline mt-4 build-hero">5 people, 3 had never coded –<br>19 days later a complete, working app.</h2>
-      <p class="t-caps build-hero-facts">17 Oct – 4 Nov 2026 · 1,287 commits · 345 pull requests · 334 issues</p>
+      <h2 class="t-headline mt-4 build-hero">5 people, 3 had never coded –<br>20 days later a complete, working app.</h2>
+      <p class="t-caps build-hero-facts">17 Oct – 5 Nov 2026 · 1,354 commits · 374 pull requests · 351 issues</p>
     </div>
   </div>
   <div class="build-area">
@@ -2839,24 +2847,24 @@
     <div class="build-panel build-p1">
       <div class="card chartcard build-chart">
         <div class="build-chart-head">
-          <div><div class="t-label">Commits on main per day</div><div class="t-meta mt-2">17 Oct – 4 Nov 2026, bots left out</div></div>
-          <div class="build-total"><span class="build-total-no tnum" data-build-count="1287">1,287</span><span class="t-label">commits</span></div>
+          <div><div class="t-label">Commits on main per day</div><div class="t-meta mt-2">17 Oct – 5 Nov 2026, bots left out</div></div>
+          <div class="build-total"><span class="build-total-no tnum" data-build-count="1354">1,354</span><span class="t-label">commits</span></div>
         </div>
-        <svg class="chart" viewBox="0 0 1000 480" style="margin-top:16px" role="img" aria-label="Commits on main per day from 17 October to 4 November 2026: 8, 20, 6, 59, 36, 151, 215, 141, 108, 67, 55, 42, 48, 122, 43, 27, 45, 53, 41. Work went on every single day; the peak of 215 came on 23 October, the day after the first night of agents.">
+        <svg class="chart" viewBox="0 0 1000 480" style="margin-top:16px" role="img" aria-label="Commits on main per day from 17 October to 5 November 2026: 8, 20, 6, 59, 36, 151, 215, 141, 108, 67, 55, 42, 48, 122, 43, 27, 45, 53, 81, 27. Work went on every single day; the peak of 215 came on 23 October, the day after the first night of agents.">
           <g class="grid"><line x1="60" y1="420" x2="990" y2="420"/><line x1="60" y1="260" x2="990" y2="260"/><line x1="60" y1="100" x2="990" y2="100"/></g>
           <g class="axis"><text x="44" y="426" text-anchor="end">0</text><text x="44" y="266" text-anchor="end">100</text><text x="44" y="106" text-anchor="end">200</text></g>
-          <polyline class="line build-line" pathLength="1" points="60,407 111,388 162,410 213,326 264,362 315,178 366,76 417,194 468,247 519,313 570,332 621,353 672,343 723,225 774,351 825,377 876,348 927,335 978,354"/>
-          <g class="mark build-mk" tabindex="0"><title>21 Oct: joint set-up check of all laptops</title><circle class="pt" cx="264" cy="362" r="9"/></g>
-          <g class="mark build-mk" tabindex="0"><title>22 Oct: first night of agents</title><circle class="pt" cx="315" cy="178" r="9"/></g>
-          <g class="mark build-mk" tabindex="0"><title>23 Oct: 215 commits, the peak</title><circle class="pt hl" cx="366" cy="76" r="13"/><text class="val" x="392" y="72">215 on 23 Oct</text></g>
-          <g class="axis"><text x="60" y="462" text-anchor="middle">17 Oct</text><text x="213" y="462" text-anchor="middle">20</text><text x="366" y="462" text-anchor="middle">23</text><text x="519" y="462" text-anchor="middle">26</text><text x="672" y="462" text-anchor="middle">29</text><text x="825" y="462" text-anchor="middle">1 Nov</text><text x="978" y="462" text-anchor="middle">4</text></g>
-          <g class="axis build-mk"><text x="278" y="398">Set-up check</text><text x="297" y="194" text-anchor="end">First night of agents</text></g>
+          <polyline class="line build-line" pathLength="1" points="60,407 108,388 157,410 205,326 253,362 302,178 350,76 398,194 447,247 495,313 543,332 591,353 640,343 688,225 736,351 785,377 833,348 881,335 930,290 978,377"/>
+          <g class="mark build-mk" tabindex="0"><title>21 Oct: joint set-up check of all laptops</title><circle class="pt" cx="253" cy="362" r="9"/></g>
+          <g class="mark build-mk" tabindex="0"><title>22 Oct: first night of agents</title><circle class="pt" cx="302" cy="178" r="9"/></g>
+          <g class="mark build-mk" tabindex="0"><title>23 Oct: 215 commits, the peak</title><circle class="pt hl" cx="350" cy="76" r="13"/><text class="val" x="376" y="72">215 on 23 Oct</text></g>
+          <g class="axis"><text x="60" y="462" text-anchor="middle">17 Oct</text><text x="205" y="462" text-anchor="middle">20</text><text x="350" y="462" text-anchor="middle">23</text><text x="495" y="462" text-anchor="middle">26</text><text x="640" y="462" text-anchor="middle">29</text><text x="785" y="462" text-anchor="middle">1 Nov</text><text x="978" y="462" text-anchor="middle">5</text></g>
+          <g class="axis build-mk"><text x="267" y="398">Set-up check</text><text x="284" y="194" text-anchor="end">First night of agents</text></g>
         </svg>
       </div>
       <div class="rows build-kpis">
-          <div style="--k:0"><span class="build-kpi tnum">19 / 19</span><span class="t-body">days with commits – we worked every day</span></div>
+          <div style="--k:0"><span class="build-kpi tnum">20 / 20</span><span class="t-body">days with commits – we worked every day</span></div>
           <div style="--k:1"><span class="build-kpi tnum">5 / 5</span><span class="t-body">team members merged their own work</span></div>
-          <div style="--k:2"><span class="build-kpi tnum">50 / 50</span><span class="t-body">bugs found and closed</span></div>
+          <div style="--k:2"><span class="build-kpi tnum">51 / 51</span><span class="t-body">bugs found and closed</span></div>
           <div style="--k:3"><span class="build-kpi tnum">18</span><span class="t-body">decisions recorded as ADRs</span></div>
           <div style="--k:4"><span class="build-kpi tnum">21</span><span class="t-body">app languages</span></div>
           <div style="--k:5" class="build-goal"><svg class="build-goal-art" viewBox="0 0 140 56" aria-hidden="true">
@@ -2908,7 +2916,7 @@
     <div class="build-map">
         <div class="card build-area-chip build-a1" style="--k:0; --dx:564px; --dy:187px"><svg class="icon"><use href="#i-sparkle"/></svg><div><h3 class="t-label">AI onboarding</h3><p class="t-meta">4 steps · runbook · the same rules for every AI</p></div></div>
         <div class="card build-area-chip build-a2" style="--k:1; --dx:0px; --dy:187px"><svg class="icon"><use href="#i-calendar"/></svg><div><h3 class="t-label">Meetings</h3><p class="t-meta">Recaps in docs/meetings become tickets</p></div></div>
-        <div class="card build-area-chip build-a3" style="--k:2; --dx:-564px; --dy:187px"><svg class="icon"><use href="#i-filter"/></svg><div><h3 class="t-label">Issues and labels</h3><p class="t-meta">334 tickets · 50 bugs · MoSCoW labels</p></div></div>
+        <div class="card build-area-chip build-a3" style="--k:2; --dx:-564px; --dy:187px"><svg class="icon"><use href="#i-filter"/></svg><div><h3 class="t-label">Issues and labels</h3><p class="t-meta">351 tickets · 51 bugs · MoSCoW labels</p></div></div>
         <div class="card build-area-chip build-a4" style="--k:3; --dx:564px; --dy:0px"><svg class="icon"><use href="#i-edit"/></svg><div><h3 class="t-label">Design</h3><p class="t-meta">Design system, tokens, UX audit</p></div></div>
         <div class="card build-area-chip build-a5" style="--k:4; --dx:0px; --dy:0px"><svg class="icon"><use href="#i-home"/></svg><div><h3 class="t-label">Features and flows</h3><p class="t-meta">docs/product · user flows</p></div></div>
         <div class="card build-area-chip build-a6" style="--k:5; --dx:-564px; --dy:0px"><svg class="icon"><use href="#i-info"/></svg><div><h3 class="t-label">Decisions</h3><p class="t-meta">18 decision records (ADRs)</p></div></div>
@@ -2976,7 +2984,7 @@
       </div>
       <div class="rows mt-5 build-label-rows">
           <div><span class="t-label">MoSCoW</span><span class="build-labels"><span class="tag">mvp-must<b class="tnum">43</b></span><span class="tag">mvp-should<b class="tnum">12</b></span><span class="tag">mvp-could<b class="tnum">31</b></span><span class="tag">mvp-wont<b class="tnum">7</b></span></span></div>
-          <div><span class="t-label">Type</span><span class="build-labels"><span class="tag">feature<b class="tnum">134</b></span><span class="tag">bug<b class="tnum">50</b></span><span class="tag">design<b class="tnum">110</b></span></span></div>
+          <div><span class="t-label">Type</span><span class="build-labels"><span class="tag">feature<b class="tnum">141</b></span><span class="tag">bug<b class="tnum">51</b></span><span class="tag">design<b class="tnum">110</b></span></span></div>
           <div><span class="t-label">Process</span><span class="build-labels"><span class="tag">decision<b class="tnum">10</b></span><span class="tag">idea<b class="tnum">9</b></span><span class="tag">deferred<b class="tnum">3</b></span></span></div>
           <div><span class="t-label">Quality</span><span class="build-labels"><span class="tag">security<b class="tnum">9</b></span><span class="tag">accessibility<b class="tnum">16</b></span></span></div>
       </div>
@@ -3908,6 +3916,8 @@ m730 -6 c0 -4 -28 -55 -62 -112 -119 -197 -298 -394 -475 -521 -79 -57 -267
   // (team decision, 4 Nov 2026): the talk reads 01 … NN, the backup follows unnumbered.
   const backupAt = slides.findIndex(s => s.dataset.section === 'Backup');
   const main = backupAt < 0 ? total : backupAt;
+  // Slides with data-number="off" (e.g. "Who did what") sit in the talk but are not counted.
+  const numbered = slides.slice(0, main).filter(s => s.dataset.number !== 'off');
   const pad = n => String(n).padStart(2, '0');
   const $ = id => document.getElementById(id);
   let current = -1;
@@ -3921,7 +3931,7 @@ m730 -6 c0 -4 -28 -55 -62 -112 -119 -197 -298 -394 -475 -521 -79 -57 -267
     const sec = /^\d+$/.test(num) ? `<b>${num}</b>${name.join(' ')}` : section;
     slide.insertAdjacentHTML('beforeend',
       `<footer class="chrome" aria-hidden="true"><span class="brand"><svg viewBox="4 2 92 49"><use href="#i-mark"/></svg>FashionAIble</span>` +
-      `<span class="sec">${sec}</span>` + (i < main ? `<span class="no"><b>${pad(i + 1)}</b> / ${pad(main)}</span>` : '') + `</footer>`);
+      `<span class="sec">${sec}</span>` + (numbered.includes(slide) ? `<span class="no"><b>${pad(numbered.indexOf(slide) + 1)}</b> / ${pad(numbered.length)}</span>` : '') + `</footer>`);
   });
 
   // Scale the 1920 × 1080 canvas to fit the window, keeping 16:9.
@@ -4471,9 +4481,10 @@ m730 -6 c0 -4 -28 -55 -62 -112 -119 -197 -298 -394 -475 -521 -79 -57 -267
 // Videos of the demo chapter (#608). They are linked, not embedded: the files live in
 // chapters/00-demo/main/media/. The chapter file finds them next to itself, the master deck
 // (docs/presentation/master/) one folder over. A missing file leaves the placeholder visible.
-// A clip starts when its slide opens and stops on its last frame (loops keep looping);
-// K pauses and resumes the clips on the current slide.
+// A clip starts 2 s after its slide opens and stops on its last frame (loops keep looping);
+// K pauses and resumes the clips on the current slide. Under the phone, the time left in the clip.
 (() => {
+  const START_DELAY = 2000;
   const base = /\/master\/[^/]*$/.test(location.pathname) ? '../chapters/00-demo/main/' : '';
   const slides = [...document.querySelectorAll('#stage > .slide')];
   const videos = [...document.querySelectorAll('#stage video[data-src]')];
@@ -4481,14 +4492,30 @@ m730 -6 c0 -4 -28 -55 -62 -112 -119 -197 -298 -394 -475 -521 -79 -57 -267
     v.muted = true;
     v.addEventListener('loadeddata', () => v.closest('.demo-media')?.classList.add('has-video'));
     v.src = base + v.dataset.src;
+    // time left, e.g. −0:23, under the phone
+    const left = document.createElement('span');
+    left.className = 'demo-time';
+    left.setAttribute('aria-hidden', 'true');
+    v.closest('.demo-panel')?.append(left);
+    const tick = () => {
+      if (!v.duration) return;
+      const s = Math.max(0, Math.ceil(v.duration - v.currentTime));
+      left.textContent = `\u2212${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+      left.classList.add('on');
+    };
+    ['loadedmetadata', 'timeupdate', 'seeked'].forEach(ev => v.addEventListener(ev, tick));
   });
 
   function sync() {
     slides.forEach(s => {
       const on = s.classList.contains('is-active');
       s.querySelectorAll('video[data-src]').forEach(v => {
-        if (on && !v.dataset.playing) { v.dataset.playing = '1'; v.currentTime = 0; v.play().catch(() => {}); }
-        if (!on && v.dataset.playing) { delete v.dataset.playing; v.pause(); }
+        // the clip waits START_DELAY ms on its first frame, so the slide's text can land first
+        if (on && !v.dataset.playing) {
+          v.dataset.playing = '1'; v.pause(); v.currentTime = 0;
+          v._demoStart = setTimeout(() => v.play().catch(() => {}), START_DELAY);
+        }
+        if (!on && v.dataset.playing) { delete v.dataset.playing; clearTimeout(v._demoStart); v.pause(); }
       });
     });
   }
